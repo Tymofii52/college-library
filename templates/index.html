@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Бібліотека коледжу</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin-right: 10px;
+            width: 40%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 7px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-button {
+            background-color: #e74c3c;
+        }
+
+        .delete-button:hover {
+            background-color: #c0392b;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .no-books {
+            color: #999;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Бібліотека Коледжу 📚</h1>
+    </header>
+
+    <div class="container">
+        <h2>Список книг</h2>
+        <ul>
+            {% for id, title, author in books %}
+                <li>
+                    <span><strong>{{ title }}</strong> — {{ author }}</span>
+                    <form action="{{ url_for('delete_book', book_id=id) }}" method="POST" style="margin:0;">
+                        <button class="delete-button" type="submit">Видалити</button>
+                    </form>
+                </li>
+            {% else %}
+                <li class="no-books">Книг ще немає</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Додати нову книгу</h2>
+        <form action="{{ url_for('add_book') }}" method="POST">
+            <input type="text" name="title" placeholder="Назва книги" required />
+            <input type="text" name="author" placeholder="Автор" required />
+            <button type="submit">Додати</button>
+        </form>
+    </div>
+</body>
+</html>
